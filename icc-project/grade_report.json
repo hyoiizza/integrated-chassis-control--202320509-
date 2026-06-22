@@ -1,0 +1,146 @@
+{
+  "student": {
+    "student_id": "202320509",
+    "name": "송효정",
+    "team_members": [],
+    "course": "자동제어 - 2026 봄",
+    "ai_usage": "Claude used for control algorithm design and implementation aid"
+  },
+  "timestamp": "2026-06-22T17:34:34",
+  "quantitative": {
+    "score": 59,
+    "max": 70,
+    "pct": 84.285714285714292
+  },
+  "deductions": {
+    "amount": 0,
+    "reasons": []
+  },
+  "errors": [],
+  "breakdown": [
+    {
+      "sid": "A3",
+      "kpi": "yawRateOvershoot",
+      "value": 2.3318631448852405,
+      "target": 10,
+      "score": 4,
+      "max": 4
+    },
+    {
+      "sid": "A3",
+      "kpi": "yawRateRiseTime",
+      "value": 0.072999999999999954,
+      "target": 0.3,
+      "score": 4,
+      "max": 4
+    },
+    {
+      "sid": "A3",
+      "kpi": "yawRateSettling",
+      "value": 0.55099999999999993,
+      "target": 0.8,
+      "score": 4,
+      "max": 4
+    },
+    {
+      "sid": "A1",
+      "kpi": "sideSlipMax",
+      "value": 1.8061576700898931,
+      "target": 3,
+      "score": 6,
+      "max": 6
+    },
+    {
+      "sid": "A1",
+      "kpi": "LTR_max",
+      "value": 0.567171298378458,
+      "target": 0.6,
+      "score": 5,
+      "max": 5
+    },
+    {
+      "sid": "A1",
+      "kpi": "lateralDevMax",
+      "value": 2.2114855313065656,
+      "target": 0.7,
+      "score": 0,
+      "max": 4
+    },
+    {
+      "sid": "A4",
+      "kpi": "understeerGradient",
+      "value": 0.00074842993727666134,
+      "target": 0.003,
+      "score": 5,
+      "max": 5
+    },
+    {
+      "sid": "A4",
+      "kpi": "sideSlipMax",
+      "value": 1.1791232342964924,
+      "target": 2,
+      "score": 5,
+      "max": 5
+    },
+    {
+      "sid": "A7",
+      "kpi": "sideSlipMax",
+      "value": 1.799656995472154,
+      "target": 5,
+      "score": 8,
+      "max": 8
+    },
+    {
+      "sid": "A7",
+      "kpi": "LTR_max",
+      "value": 0.31992061412871253,
+      "target": 0.7,
+      "score": 7,
+      "max": 7
+    },
+    {
+      "sid": "B1",
+      "kpi": "stoppingDistance",
+      "value": 68.865573762620457,
+      "target": 40,
+      "score": 0,
+      "max": 5
+    },
+    {
+      "sid": "B1",
+      "kpi": "absSlipRMS",
+      "value": 0.090061709513064678,
+      "target": 0.1,
+      "score": 5,
+      "max": 5
+    },
+    {
+      "sid": "D1",
+      "kpi": "sideSlipMax",
+      "value": 1.8061576700898931,
+      "target": 4,
+      "score": 4,
+      "max": 4
+    },
+    {
+      "sid": "D1",
+      "kpi": "LTR_max",
+      "value": 0.469128383314081,
+      "target": 0.6,
+      "score": 2,
+      "max": 2
+    },
+    {
+      "sid": "D1",
+      "kpi": "lateralDevMax",
+      "value": 2.2114855313065656,
+      "target": 1,
+      "score": 0,
+      "max": 2
+    }
+  ],
+  "final_auto": 59,
+  "ctrl_signature": "dd0b65da7948273d53f99b36cdf99f6369a757b09596034e70ac687b567e9031",
+  "matlab_version": "25.1 (R2025a)",
+  "solver_used": "ode45"
+}
