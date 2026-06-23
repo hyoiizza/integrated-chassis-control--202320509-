@@ -9,9 +9,9 @@ function [deltaAdd, ctrlState] = ctrl_lateral(yawRateRef, yawRate, slipAngle, vx
 %       yawRate    - 실제 yaw rate [rad/s]
 %       slipAngle  - 차체 슬립 앵글 β [rad]
 %       vx         - 종방향 속도 [m/s]
-%       ctrlState  - 내부 상태 (.intError, .prevError, .vx_prev)
-%       CTRL       - 게인 파라미터 (.LAT.Kp, .Ki, .Kd, .intMax)
-%       LIM        - 한계값 (.MAX_STEER_ANGLE, .MAX_SLIP_ANGLE)
+%       ctrlState  - 내부 상태 (.K_lqr, .K_target, .vx_prev)
+%       CTRL       - 게인 파라미터 (사용 안 함 — Q/R 은 본 파일 내부에 하드코딩)
+%       LIM        - 한계값 (.MAX_STEER_ANGLE, .MAX_YAW_RATE)
 %       dt         - sample time [s]
 %
 %   Outputs:
@@ -20,8 +20,6 @@ function [deltaAdd, ctrlState] = ctrl_lateral(yawRateRef, yawRate, slipAngle, vx
 %       ctrlState           - 업데이트된 내부 상태
 
     %% 내부 상태 초기화
-    if ~isfield(ctrlState, 'intError');  ctrlState.intError  = 0; end
-    if ~isfield(ctrlState, 'prevError'); ctrlState.prevError = 0; end
     if ~isfield(ctrlState, 'K_lqr');    ctrlState.K_lqr     = [0, 0]; end
     if ~isfield(ctrlState, 'K_target'); ctrlState.K_target  = [0, 0]; end
     if ~isfield(ctrlState, 'vx_prev');  ctrlState.vx_prev   = -999; end

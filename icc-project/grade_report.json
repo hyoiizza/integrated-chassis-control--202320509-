@@ -6,7 +6,7 @@
     "course": "자동제어 - 2026 봄",
     "ai_usage": "Claude used for control algorithm design and implementation aid"
   },
-  "timestamp": "2026-06-23T10:22:01",
+  "timestamp": "2026-06-23T19:36:40",
   "quantitative": {
     "score": 63.583702388683967,
     "max": 70,
@@ -140,7 +140,7 @@
     }
   ],
   "final_auto": 63.583702388683967,
-  "ctrl_signature": "9dbfe1116c4d18f1d613e2f1ee8e35df620abdbc0b86e2bc42e7d0016e58770e",
+  "ctrl_signature": "eb4d1ab8fd02c943cb654c2b9576308a5b505548b38e66246cbded7ab1902cae",
   "matlab_version": "26.1 (R2026a)",
   "solver_used": "ode45"
 }
