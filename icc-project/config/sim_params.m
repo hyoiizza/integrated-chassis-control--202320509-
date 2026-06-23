@@ -51,9 +51,9 @@ CTRL.LAT.Kd     = 0.05;    % 미분 게인
 CTRL.LAT.intMax = 5.0;     % 적분 안티와인드업 한계 [rad]
 
 %% 제어기 파라미터 — 종방향 (Longitudinal)
-CTRL.LON.Kp     = 0.5;     % 비례 게인
-CTRL.LON.Ki     = 0.05;    % 적분 게인
-CTRL.LON.intMax = 2000;    % 적분 안티와인드업 한계 [Nm]
+CTRL.LON.Kp     = 600;     % 비례 게인 [N per (m/s)] — 코너링 저항(~1kN) 보상에 필요한 수준으로 상향
+CTRL.LON.Ki     = 150;     % 적분 게인 [N per (m*s)]
+CTRL.LON.intMax = 20;      % 적분 안티와인드업 한계 [m*s] (Ki*intMax ≈ 3kN 한도)
 
 %% 제어기 파라미터 — 수직 (Vertical / CDC)
 CTRL.VER.cMin    = 500;    % [Ns/m] 최소 감쇠 계수

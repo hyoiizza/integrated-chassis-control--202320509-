@@ -23,6 +23,7 @@ function [deltaAdd, ctrlState] = ctrl_lateral(yawRateRef, yawRate, slipAngle, vx
     if ~isfield(ctrlState, 'intError');  ctrlState.intError  = 0; end
     if ~isfield(ctrlState, 'prevError'); ctrlState.prevError = 0; end
     if ~isfield(ctrlState, 'K_lqr');    ctrlState.K_lqr     = [0, 0]; end
+    if ~isfield(ctrlState, 'K_target'); ctrlState.K_target  = [0, 0]; end
     if ~isfield(ctrlState, 'vx_prev');  ctrlState.vx_prev   = -999; end
 
     %% (1) Gain scheduling — 속도 변화가 크면 LQR 재계산
@@ -38,18 +39,32 @@ function [deltaAdd, ctrlState] = ctrl_lateral(yawRateRef, yawRate, slipAngle, vx
         R = 4.0;
 
         try
-            K = lqr(A, B, Q, R);
-            ctrlState.K_lqr = K;
+            ctrlState.K_target = lqr(A, B, Q, R);
         catch
-            % lqr 실패 시 (vx 너무 낮은 등) 기존 게인 유지
+            % lqr 실패 시 (vx 너무 낮은 등) 기존 목표 게인 유지
         end
         ctrlState.vx_prev = vx_safe;
     end
 
+    % 게인 천이 평활화 — vx 가 연속적으로 변하는 시나리오(A4 등)에서 1m/s 단위로
+    % 재계산된 새 게인이 한 스텝에 그대로 튀어 들어가면 steerRaw 가 불연속적으로
+    % 점프해 진동을 유발한다. tau 시정수로 부드럽게 수렴시켜 점프를 없앤다.
+    % (vx 가 거의 일정한 A1/A3/D1 등에서는 게인이 이미 정착돼 있어 응답 속도에
+    %  영향을 주지 않음 — 빠른 step/DLC 보정은 그대로 즉시 반영됨)
+    tau = 0.05;  % [s]
+    alpha = min(dt / tau, 1.0);
+    ctrlState.K_lqr = (1 - alpha) * ctrlState.K_lqr + alpha * ctrlState.K_target;
+
     K = ctrlState.K_lqr;
 
     %% (2) LQR AFS 보조 조향 — yawRate 오차 피드백 (vy 항은 추정 잡음이 커 제외)
-    yawRate_err = yawRateRef - yawRate;
+    % yawRateRef 자체를 물리적으로 달성 가능한 한계(LIM.MAX_YAW_RATE)로 clamp.
+    % calc_ref_yaw_rate 는 선형(소각) bicycle model 이라, driver(Stanley 등)가 급격한
+    % 보정으로 큰 steer 각을 낼 때 타이어 마찰 한계를 훨씬 초과하는 비현실적 목표를
+    % 낼 수 있다 — 이 경우 clamp 없이는 AFS 가 불가능한 목표를 쫓다 조향각이
+    % 지속적으로 saturation 에 빠져 오히려 경로 추종을 악화시킨다.
+    yawRateRefClamped = max(-LIM.MAX_YAW_RATE, min(LIM.MAX_YAW_RATE, yawRateRef));
+    yawRate_err = yawRateRefClamped - yawRate;
     steerRaw = K(2) * yawRate_err;
 
     % Saturation
